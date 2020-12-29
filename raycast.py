@@ -20,7 +20,7 @@ class Ray:
 
     def update(self, screen: pg.display, p: Particle, boundaries: list):
         self.start = p.pos
-        self.end.from_polar((10000, self.heading))
+        self.end.from_polar((100000, self.heading))
 
         closest = float("inf")
         new_end = pg.Vector2()
@@ -29,7 +29,6 @@ class Ray:
         x4 = self.end.x
         y3 = self.start.y
         y4 = self.end.y
-        print(x4, y4)
 
         for b in boundaries:
             x1 = b.start.x
@@ -55,8 +54,7 @@ class Ray:
                     new_end.xy = x, y
 
         if closest == float("inf"):
-            self.end = self.start
-            self.image = None
+            self.image = drawline(screen, (255, 0, 0),  self.start, self.end)
         else:
             self.end = new_end
-            self.image = drawline(screen, (255, 255, 255),  self.start, self.end)
+            self.image = drawline(screen, (255, 0, 0),  self.start, self.end)

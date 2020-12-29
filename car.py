@@ -10,12 +10,12 @@ class gameobject():
 		self.ded = False
 		self.angle = angle
 
-	def rotateright(self):
-		self.angle -= 2
+	def rotateright(self, angle_diff):
+		self.angle -= angle_diff
 		self.angle %= 360
 
-	def rotateleft(self):
-		self.angle += 2
+	def rotateleft(self, angle_diff):
+		self.angle += angle_diff
 		self.angle %= 360
 
 	def setpos(self, diff):
