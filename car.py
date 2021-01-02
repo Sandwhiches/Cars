@@ -19,8 +19,14 @@ class gameobject():
         self.delta = 1
         self.place = 0
         self.fitness = 0
-        self.distances = []
+        self.distances = [232.1820256396821, 83.45159946065338, 270.00023021719556, 155.84132183618638, 95.52866196664567]
         self.ded = False
+
+    @staticmethod
+    def update_all(screen: pg.display, delta: float, cars: list):
+        for car in cars:
+            car.update(screen, delta)
+
 
     def rotateright(self, angle_diff: float):
         self.angle -= angle_diff
@@ -48,6 +54,7 @@ class gameobject():
             self.speed -= 2*acc
         if self.speed < 0:
             self.speed = 0
+        if self.speed == 0:
             self.fitness -= 1
             self.ded = True
             return
@@ -116,19 +123,19 @@ class Ray:
             if dist <= self.crash:
                 self.player.fitness += 1
                 self.player.place += 1
-                # print(self.player.fitness)
+                print(self.player.fitness)
                 if self.player.place == len(Ray.checkpoints):
                     self.player.place = 0
 
 
     @staticmethod
-    def rotate_rays(diff, rays):
+    def rotate_rays(diff: float, rays: list):
         for ray in rays:
             ray.heading += diff
             ray.heading %= 360
 
     @staticmethod
-    def update_all(screen, rays: list, start: pg.Vector2):
+    def update_all(screen: pg.display, rays: list, start: pg.Vector2):
         dist = []
         for ray in rays:
             dist.append(ray.update(screen, start))

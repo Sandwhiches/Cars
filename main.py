@@ -65,27 +65,26 @@ def main(genomes, config):
 
         dead = []
         for x, car in enumerate(cars):
-            car.update(screen, delta)
             if car.ded:
                 dead.append(x)
-                break
+                continue
             output = nets[x].activate(tuple(car.distances) + (car.speed,))
-            if output[2]:
+            if output[0] == 1 :
                 car.rotateleft(temp_angle)
-            if output[1]:
+            if output[1] == 1:
                 car.rotateright(temp_angle)
-            if output[0]:
+            if output[2] == 1:
                 car.setpos(delta)
-                ge[x].fitness += .1
             ge[x].fitness = car.fitness
 
-        for x in dead:
-            ge[x].fitness -= 5
+        for x in dead[::-1]:
+            ge[x].fitness -= 1
             cars.pop(x)
             nets.pop(x)
             ge.pop(x)
 
 
+        gameobject.update_all(screen, delta, cars)
         if draw_checkpoints:
             Checkpoint.update_all(screen, checkpoints)
         Boundary.update_all(screen, boundaries)
@@ -117,7 +116,7 @@ def run(config_file):
     #p.add_reporter(neat.Checkpointer(5))
 
     # Run for up to 50 generations.
-    winner = p.run(main, 50)
+    winner = p.run(main, 1000)
 
     # show final stats
     print('\nBest genome:\n{!s}'.format(winner))
