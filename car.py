@@ -48,6 +48,8 @@ class gameobject():
             self.speed -= 2*acc
         if self.speed < 0:
             self.speed = 0
+            self.fitness -= 1
+            self.ded = True
             return
         speed = self.speed*delta
         self.x += speed*(math.cos(math.radians(self.angle)))
@@ -60,7 +62,6 @@ class gameobject():
         self.distances = Ray.update_all(screen, self.rays, start)
         if not all(self.distances):
             self.ded = True
-            print('crashed!')
         self.rays[2].pass_checkpoint(start)
         self.rotated_image = pg.transform.rotate(self.image, self.angle)
         screen.blit(self.rotated_image, (self.x - int(self.rotated_image.get_width()/2), self.y - int(self.rotated_image.get_height()/2)))
@@ -115,7 +116,7 @@ class Ray:
             if dist <= self.crash:
                 self.player.fitness += 1
                 self.player.place += 1
-                print(self.player.fitness)
+                # print(self.player.fitness)
                 if self.player.place == len(Ray.checkpoints):
                     self.player.place = 0
 
