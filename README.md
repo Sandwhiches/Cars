@@ -1,6 +1,7 @@
 You need to install neat and pygame for this to work,
 
 ```pip install neat-python```
+
 ```pip install pygame```
 
 # Track
