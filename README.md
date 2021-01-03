@@ -8,7 +8,7 @@ You need to install neat and pygame for this to work,
 Run edit_track.py to create your own track.
 
 # Cars
-
+]
     Run main.py
     -----------
     keys :
