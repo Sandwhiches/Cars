@@ -9,11 +9,12 @@ from car import Ray
 from boundary import Boundary
 from boundary import Checkpoint
 
-
+update = True
 draw_checkpoints = False
 end_time = 5
 gen = -1
 def main(genomes, config):
+    global update
     global draw_checkpoints
     global end_time
     global gen
@@ -84,8 +85,11 @@ def main(genomes, config):
             end_time -= .5
         if keys[pg.K_LEFT]:
             draw_checkpoints = not draw_checkpoints
+        if keys[pg.K_RIGHT]:
+            update = not update
 
-        screen.fill((245,204,77))
+        if update:
+            screen.fill((245,204,77))
         delta = clock.tick(60)/1000
         temp_angle = angle_diff*delta
 
@@ -119,10 +123,8 @@ def main(genomes, config):
         Boundary.update_all(screen, boundaries)
         multlines(f'Gen({gen})\nTime :  {end_time}s\nFitness :  {max_fitness}\nPop :  {len(cars)}', status, 25)
         pg.display.update()
-        # root.update()
 
         if cars == []:
-            # root.destroy()
             break
 
 

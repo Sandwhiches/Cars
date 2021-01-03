@@ -176,8 +176,8 @@ def main():
             Checkpoint.update_all(screen, checkpoints)
         Boundary.update_all(screen, boundaries)
         car.update(screen, delta)
-        if car.ded:
-            break
+        # if car.ded:
+        #     break
         pg.display.update()
         root.update()
 main()

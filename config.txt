@@ -1,9 +1,9 @@
 
 [NEAT]
 fitness_criterion     = max
-fitness_threshold     = 300
-pop_size              = 300
-reset_on_extinction   = True
+fitness_threshold     = 1000
+pop_size              = 500
+reset_on_extinction   = False
 
 [DefaultGenome]
 # node activation options
@@ -17,7 +17,7 @@ aggregation_mutate_rate = 0.1
 aggregation_options     = sum
 
 # node bias options
-bias_init_mean          = 0.0
+bias_init_mean          = 0.01
 bias_init_stdev         = 1.0
 bias_max_value          = 30.0
 bias_min_value          = -30.0
@@ -54,9 +54,9 @@ response_init_mean      = 1.0
 response_init_stdev     = 0.0
 response_max_value      = 30.0
 response_min_value      = -30.0
-response_mutate_power   = 0.0
-response_mutate_rate    = 0.0
-response_replace_rate   = 0.0
+response_mutate_power   = 0.01
+response_mutate_rate    = 0.01
+response_replace_rate   = 0.01
 
 # connection weight options
 weight_init_mean        = 0.0
@@ -68,13 +68,13 @@ weight_mutate_rate      = 0.8
 weight_replace_rate     = 0.1
 
 [DefaultSpeciesSet]
-compatibility_threshold = 3.0
+compatibility_threshold = 4
 
 [DefaultStagnation]
 species_fitness_func = max
-max_stagnation       = 80
-species_elitism      = 4
+max_stagnation       = 0
+species_elitism      = 1
 
 [DefaultReproduction]
-elitism            = 10
-survival_threshold = 0.2
+elitism            = 1
+survival_threshold = 0.01
