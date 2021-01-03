@@ -172,11 +172,12 @@ def main():
         if keys[pg.K_UP]:
             car.setpos(delta)
 
-
         if draw_checkpoints:
             Checkpoint.update_all(screen, checkpoints)
         Boundary.update_all(screen, boundaries)
         car.update(screen, delta)
+        if car.ded:
+            break
         pg.display.update()
         root.update()
 main()

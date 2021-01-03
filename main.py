@@ -1,15 +1,24 @@
 import pygame as pg
+import time
 import neat
+import pickle
 import os
 from tkinter import *
-from random import randint
 from car import gameobject
 from car import Ray
 from boundary import Boundary
 from boundary import Checkpoint
 
 
+draw_checkpoints = False
+end_time = 5
+gen = -1
 def main(genomes, config):
+    global draw_checkpoints
+    global end_time
+    global gen
+    max_fitness = 0
+    gen += 1
     ### CONFIG
     screen_w = 1250
     screen_h = 750
@@ -41,23 +50,40 @@ def main(genomes, config):
         boundaries = Boundary.load_boundaries()
         checkpoints = Checkpoint.load_checkpoints()
 
+    def multlines(text, configs, fontsize):
+        text = text.splitlines()
+        for i, j in enumerate(text):
+            screen.blit(configs.render(j, True, (255, 255, 0)), (0, fontsize*i))
+
 
 
     # pygame variables
     pg.init()
+    status = pg.font.Font('freesansbold.ttf',25)
     screen = pg.display.set_mode((screen_w, screen_h), pg.RESIZABLE)
 
     running = True
     checkpoints = []
-    draw_checkpoints = True
     boundaries = []
     load_track()
+    start_time = time.time()
 
 
     while running:
+        if time.time() - start_time > end_time:
+            break
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 exit()
+
+        # changing elimination time
+        keys = pg.key.get_pressed()
+        if keys[pg.K_UP]:
+            end_time += .5
+        if keys[pg.K_DOWN]:
+            end_time -= .5
+        if keys[pg.K_LEFT]:
+            draw_checkpoints = not draw_checkpoints
 
         screen.fill((245,204,77))
         delta = clock.tick(60)/1000
@@ -76,9 +102,12 @@ def main(genomes, config):
             if output[2] == 1:
                 car.setpos(delta)
             ge[x].fitness = car.fitness
+            if ge[x].fitness > max_fitness:
+                max_fitness = ge[x].fitness
+
 
         for x in dead[::-1]:
-            ge[x].fitness -= 1
+            ge[x].fitness -= 15
             cars.pop(x)
             nets.pop(x)
             ge.pop(x)
@@ -88,6 +117,7 @@ def main(genomes, config):
         if draw_checkpoints:
             Checkpoint.update_all(screen, checkpoints)
         Boundary.update_all(screen, boundaries)
+        multlines(f'Gen({gen})\nTime :  {end_time}s\nFitness :  {max_fitness}\nPop :  {len(cars)}', status, 25)
         pg.display.update()
         # root.update()
 
@@ -97,11 +127,6 @@ def main(genomes, config):
 
 
 def run(config_file):
-    """
-    runs the NEAT algorithm to train a neural network to play flappy bird.
-    :param config_file: location of config file
-    :return: None
-    """
     config = neat.config.Config(neat.DefaultGenome, neat.DefaultReproduction,
                          neat.DefaultSpeciesSet, neat.DefaultStagnation,
                          config_file)
@@ -113,19 +138,17 @@ def run(config_file):
     p.add_reporter(neat.StdOutReporter(True))
     stats = neat.StatisticsReporter()
     p.add_reporter(stats)
-    #p.add_reporter(neat.Checkpointer(5))
 
-    # Run for up to 50 generations.
-    winner = p.run(main, 1000)
+
+    winner = p.run(main, 200)
+    with open('Winner.txt', 'wb') as w:
+        pickle.dump(winner, w)
 
     # show final stats
     print('\nBest genome:\n{!s}'.format(winner))
 
 
 if __name__ == '__main__':
-    # Determine path to configuration file. This path manipulation is
-    # here so that the script will run successfully regardless of the
-    # current working directory.
     local_dir = os.path.dirname(__file__)
     config_path = os.path.join(local_dir, 'config.txt')
     run(config_path)

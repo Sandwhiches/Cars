@@ -55,7 +55,7 @@ class gameobject():
         if self.speed < 0:
             self.speed = 0
         if self.speed == 0:
-            self.fitness -= 1
+            # self.fitness -= 1
             self.ded = True
             return
         speed = self.speed*delta
@@ -121,9 +121,8 @@ class Ray:
             y = y1 + t * (y2 - y1)
             dist = self.start.distance_to((x, y))
             if dist <= self.crash:
-                self.player.fitness += 1
+                self.player.fitness += 5
                 self.player.place += 1
-                print(self.player.fitness)
                 if self.player.place == len(Ray.checkpoints):
                     self.player.place = 0
 
@@ -180,9 +179,11 @@ class Ray:
             self.image = drawline(screen, (255, 0, 0),  self.start, self.end)
         else:
             self.end = new_end
-            self.image = drawline(screen, (255, 0, 0),  self.start, self.end)
+            # self.image = drawline(screen, (255, 0, 0),  self.start, self.end)
             if closest <= self.crash:
-                self.player.fitness -= 1
+                if self.player.fitness == 0:
+                    self.player.fitness -= 100
+                self.player.fitness -= 15
                 self.player.ded = True
                 return False
             return closest

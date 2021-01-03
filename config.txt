@@ -1,14 +1,14 @@
 
 [NEAT]
 fitness_criterion     = max
-fitness_threshold     = 100
-pop_size              = 50
-reset_on_extinction   = False
+fitness_threshold     = 300
+pop_size              = 300
+reset_on_extinction   = True
 
 [DefaultGenome]
 # node activation options
 activation_default      = tanh
-activation_mutate_rate  = 0.1
+activation_mutate_rate  = 0.01
 activation_options      = tanh
 
 # node aggregation options
@@ -72,9 +72,9 @@ compatibility_threshold = 3.0
 
 [DefaultStagnation]
 species_fitness_func = max
-max_stagnation       = 20
-species_elitism      = 2
+max_stagnation       = 80
+species_elitism      = 4
 
 [DefaultReproduction]
-elitism            = 2
+elitism            = 10
 survival_threshold = 0.2
