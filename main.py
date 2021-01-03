@@ -87,6 +87,8 @@ def main(genomes, config):
             draw_checkpoints = not draw_checkpoints
         if keys[pg.K_RIGHT]:
             update = not update
+        if keys[pg.K_BACKSLASH]:
+            Ray.draw_rays = not Ray.draw_rays
 
         if update:
             screen.fill((245,204,77))

@@ -82,6 +82,7 @@ drawline = pg.draw.line
 class Ray:
     boundaries = Boundary.load_boundaries()
     checkpoints = Checkpoint.load_checkpoints()
+    draw_rays = False
     def __init__(self, heading: float = 0, crash: int = -1, player: gameobject = None):
         self.heading = heading
         self.end: pg.math.Vector2 = pg.math.Vector2()
@@ -176,10 +177,12 @@ class Ray:
                     new_end.xy = x, y
 
         if closest == float("inf"):
-            self.image = drawline(screen, (255, 0, 0),  self.start, self.end)
+            if Ray.draw_rays:
+                self.image = drawline(screen, (255, 0, 0),  self.start, self.end)
         else:
             self.end = new_end
-            # self.image = drawline(screen, (255, 0, 0),  self.start, self.end)
+            if Ray.draw_rays:
+                self.image = drawline(screen, (255, 0, 0),  self.start, self.end)
             if closest <= self.crash:
                 if self.player.fitness == 0:
                     self.player.fitness -= 100
