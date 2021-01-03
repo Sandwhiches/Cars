@@ -9,8 +9,8 @@ Run edit_track.py to create your own track.
 
 # Cars
 
-run main.py
-
+Run main.py
+-----------
 keys :
 
     up/down arrow --> increase/decrease time limit per generation.
@@ -19,4 +19,4 @@ keys :
 
 # Configs
 
-go here: https://neat-python.readthedocs.io/en/latest/config_file.html if you want to mess with the configs
+go here: https://neat-python.readthedocs.io/en/latest/config_file.html if you want to mess with the configs.
