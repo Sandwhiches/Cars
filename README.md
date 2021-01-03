@@ -9,13 +9,13 @@ Run edit_track.py to create your own track.
 
 # Cars
 
-Run main.py
------------
-keys :
+    Run main.py
+    -----------
+    keys :
 
-    up/down arrow --> increase/decrease time limit per generation.
-    left arrow    --> draw checkpoints.
-    right arrow   --> draw/not draw background.
+        up/down arrow --> increase/decrease time limit per generation.
+        left arrow    --> draw checkpoints.
+        right arrow   --> draw/not draw background.
 
 # Configs
 
