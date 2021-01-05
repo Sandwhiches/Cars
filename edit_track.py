@@ -1,5 +1,4 @@
 import pygame as pg
-import neat
 import os
 from tkinter import *
 from random import randint
@@ -46,18 +45,18 @@ def main():
     root.geometry('+45+69')
     root.title('configs')
 
-    def save_track():
+    def save_track(file = 'assets//racetrack.txt'):
         if not checkpoint_mode:
-            Boundary.save_boundaries(boundaries)
-            Ray.boundaries = Boundary.load_boundaries()
+            Boundary.save_boundaries(boundaries, file)
+            Ray.boundaries = Boundary.load_boundaries(file)
         else:
             Checkpoint.save_checkpoints(checkpoints)
             Ray.checkpoints = Checkpoint.load_checkpoints()
 
-    def load_track():
+    def load_track(file = 'assets//racetrack.txt'):
         nonlocal checkpoints
         nonlocal boundaries
-        boundaries = Boundary.load_boundaries()
+        boundaries = Boundary.load_boundaries(file)
         checkpoints = Checkpoint.load_checkpoints()
 
     def remove_line():
@@ -98,29 +97,59 @@ def main():
         else:
             draw.set(f'Draw Checkpints :  OFF')
 
+    def ch_custom():
+        nonlocal cust
+        nonlocal checkpoint_mode
+        nonlocal boundaries
+        if draw_checkpoints:
+            draw_checkpoint()
+        checkpoint_mode = False
+        cust = not cust
+        if cust:
+            custom.set('Change back')
+            button1.configure(command = lambda: save_track('assets//winner_test_track.txt'))
+            button2.configure(command = lambda: load_track('assets//winner_test_track.txt'))
+            button5.grid_remove()
+            button6.grid_remove()
+            try:
+                load_track('assets//winner_test_track.txt')
+            except:
+                boundaries = []
+        else:
+            custom.set('Change to winner test track')
+            button1.configure(command = lambda: save_track())
+            button2.configure(command = lambda: load_track())
+            button5.grid()
+            button6.grid()
+            load_track()
 
-
-    button = Button(root, text = 'Save Track', command = save_track)
+    cust = False
+    custom = StringVar()
+    custom.set('Change to winner test track')
+    button = Button(root, textvariable = custom, command = ch_custom)
     button.grid(row = 0, column = 0, sticky = W + E + N + S, ipady = 4)
 
-    button1 = Button(root, text='Load Track', command = load_track)
-    button1.grid(row = 1, column= 0, sticky = W + E + N + S, ipady = 4)
+    button1 = Button(root, text = 'Save Track', command = save_track)
+    button1.grid(row = 1, column = 0, sticky = W + E + N + S, ipady = 4)
 
-    button1 = Button(root, text='Remove Line', command = remove_line, repeatinterval = 150, repeatdelay = 200)
-    button1.grid(row = 2, column= 0, sticky = W + E + N + S, ipady = 4)
+    button2 = Button(root, text='Load Track', command = load_track)
+    button2.grid(row = 2, column= 0, sticky = W + E + N + S, ipady = 4)
 
-    button1 = Button(root, text='Undo', command = re_add_line, repeatinterval = 150, repeatdelay = 200)
-    button1.grid(row = 2, column= 1, sticky = W + E + N + S, ipady = 4)
+    button3 = Button(root, text='Remove Line', command = remove_line, repeatinterval = 150, repeatdelay = 200)
+    button3.grid(row = 3, column= 0, sticky = W + E + N + S, ipady = 4)
+
+    button4 = Button(root, text='Undo', command = re_add_line, repeatinterval = 150, repeatdelay = 200)
+    button4.grid(row = 3, column= 1, sticky = W + E + N + S, ipady = 4)
 
     check = StringVar()
     check.set(f'Boundary Mode')
-    button1 = Button(root, textvariable = check, command = switch_mode, repeatinterval = 150, repeatdelay = 200)
-    button1.grid(row = 3, column= 0, sticky = W + E + N + S, ipady = 4)
+    button5 = Button(root, textvariable = check, command = switch_mode, repeatinterval = 150, repeatdelay = 200)
+    button5.grid(row = 4, column= 0, sticky = W + E + N + S, ipady = 4)
 
     draw = StringVar()
     draw.set(f'Draw Checkpints :  ON')
-    button1 = Button(root, textvariable = draw, command = draw_checkpoint, repeatinterval = 150, repeatdelay = 200)
-    button1.grid(row = 4, column= 0, sticky = W + E + N + S, ipady = 4)
+    button6 = Button(root, textvariable = draw, command = draw_checkpoint, repeatinterval = 150, repeatdelay = 200)
+    button6.grid(row = 4, column= 0, sticky = W + E + N + S, ipady = 4)
 
 
 

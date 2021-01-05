@@ -20,6 +20,8 @@ def main(genomes, config):
     global gen
     max_fitness = 0
     gen += 1
+    if gen%5 == 1:
+        end_time += 3
     ### CONFIG
     screen_w = 1250
     screen_h = 750
@@ -48,7 +50,7 @@ def main(genomes, config):
     def load_track():
         nonlocal checkpoints
         nonlocal boundaries
-        boundaries = Boundary.load_boundaries()
+        boundaries = Boundary.load_boundaries('assets//racetrack.txt')
         checkpoints = Checkpoint.load_checkpoints()
 
     def multlines(text, configs, fontsize):

@@ -80,7 +80,7 @@ from boundary import Checkpoint
 
 drawline = pg.draw.line
 class Ray:
-    boundaries = Boundary.load_boundaries()
+    boundaries = Boundary.load_boundaries('assets//racetrack.txt')
     checkpoints = Checkpoint.load_checkpoints()
     draw_rays = False
     def __init__(self, heading: float = 0, crash: int = -1, player: gameobject = None):
@@ -179,6 +179,7 @@ class Ray:
         if closest == float("inf"):
             if Ray.draw_rays:
                 self.image = drawline(screen, (255, 0, 0),  self.start, self.end)
+            return closest
         else:
             self.end = new_end
             if Ray.draw_rays:

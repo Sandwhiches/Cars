@@ -12,13 +12,13 @@ class Boundary:
         self.image = pg.draw.line(screen, (0, 0, 0), self.start, self.end, 5)
 
     @staticmethod
-    def save_boundaries(boundaries: list):
-        with open('racetrack.txt', 'wb') as f:
+    def save_boundaries(boundaries: list, file: str):
+        with open(file, 'wb') as f:
             pickle.dump(boundaries, f)
 
     @staticmethod
-    def load_boundaries():
-        with open('racetrack.txt', 'rb') as f:
+    def load_boundaries(file: str):
+        with open(file, 'rb') as f:
             boundaries = pickle.load(f)
         return boundaries
 
@@ -36,11 +36,11 @@ class Checkpoint(Boundary):
 
     @staticmethod
     def save_checkpoints(checkpoints: list):
-        with open('checkpoint.txt', 'wb') as f:
+        with open('assets//checkpoint.txt', 'wb') as f:
             pickle.dump(checkpoints, f)
 
     @staticmethod
     def load_checkpoints():
-        with open('checkpoint.txt', 'rb') as f:
+        with open('assets//checkpoint.txt', 'rb') as f:
             checkpoints = pickle.load(f)
         return checkpoints
